@@ -1,10 +1,11 @@
 from PIL import Image
+import numpy as np
 
 try:
     image = Image.open('sample-image.jpg')
 except IOError as error:
     print('Cannot load image')
 
-print('Successfully loaded image!')
+image_array = np.array(image)
 
-print('Image size: ' + str(image.size[0]) + ' x ' + str(image.size[1]))
+print(image_array)
