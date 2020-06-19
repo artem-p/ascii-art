@@ -6,6 +6,11 @@ try:
 except IOError as error:
     print('Cannot load image')
 
-image_array = np.array(image)
+# get image as 2d array
+pixel_matrix = np.array(image)
 
-print(image_array)
+for x in len(pixel_matrix):
+    for y in len(pixel_matrix[x]):
+        pixel = pixel_matrix[x][y]
+
+        print(pixel)
