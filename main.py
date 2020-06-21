@@ -23,6 +23,17 @@ def pixel_to_symbol(pixel):
         return ''
 
 
+def scale_image(image, new_width=512):
+    """Resizes an image preserving the aspect ratio.
+    """
+    (original_width, original_height) = image.size
+    aspect_ratio = original_height/float(original_width)
+    new_height = int(aspect_ratio * new_width)
+
+    new_image = image.resize((new_width, new_height))
+    return new_image
+
+
 try:
     image = Image.open('sample-image.jpg')
 except IOError as error:
