@@ -15,9 +15,13 @@ def pixel_to_symbol(pixel):
     # get single brightness value for pixel
     brightness = to_brightness(pixel)
 
-    symbol_position = brightness * BRIGHTNESS__TO_SYMBOL_SLOPE
+    symbol_position = round(brightness * BRIGHTNESS__TO_SYMBOL_SLOPE)
 
-    return symbol_position
+    if 0 <= symbol_position <= BRIGHTNESS_SYMBOLS_COUNT:
+        return BRIGHTNESS_SYMBOLS[symbol_position]
+    else:    
+        return ''
+
 
 try:
     image = Image.open('sample-image.jpg')
