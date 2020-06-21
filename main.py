@@ -23,7 +23,7 @@ def pixel_to_symbol(pixel):
         return ''
 
 
-def scale_image(image, new_width=250):
+def scale_image(image, new_width=300):
     """Resizes an image preserving the aspect ratio.
     """
     (original_width, original_height) = image.size
