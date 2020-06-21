@@ -11,8 +11,13 @@ def to_brightness(pixel):
     return (int(pixel[0]) + int(pixel[1]) + int(pixel[2])) / 3
 
 
-def brightness_to_symbol(brightness):
-    return brightness * BRIGHTNESS__TO_SYMBOL_SLOPE
+def pixel_to_symbol(pixel):
+    # get single brightness value for pixel
+    brightness = to_brightness(pixel)
+
+    symbol_position = brightness * BRIGHTNESS__TO_SYMBOL_SLOPE
+
+    return symbol_position
 
 try:
     image = Image.open('sample-image.jpg')
@@ -22,10 +27,8 @@ except IOError as error:
 # get image as 2d array
 pixel_matrix = np.array(image)
 
-# get single brightness value for pixel
-brightness_matrix = list(map(lambda row: list(map(lambda pixel: to_brightness(pixel), row)), pixel_matrix))
 
-# transform brightness to symbol
-symbols_matrix = list(map(lambda row: list(map(lambda pixel: brightness_to_symbol(pixel), row)), brightness_matrix))
+# transform pixel to symbol
+symbols_matrix = list(map(lambda row: list(map(lambda pixel: pixel_to_symbol(pixel), row)), pixel_matrix))
 
 print(symbols_matrix)
