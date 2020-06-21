@@ -18,12 +18,12 @@ def pixel_to_symbol(pixel):
     symbol_position = round(brightness * BRIGHTNESS__TO_SYMBOL_SLOPE)
 
     if 0 <= symbol_position <= BRIGHTNESS_SYMBOLS_COUNT:
-        return BRIGHTNESS_SYMBOLS[symbol_position]
+        return BRIGHTNESS_SYMBOLS[symbol_position] * 2 # double symbols so image doesn't look squashed
     else:    
         return ''
 
 
-def scale_image(image, new_width=512):
+def scale_image(image, new_width=250):
     """Resizes an image preserving the aspect ratio.
     """
     (original_width, original_height) = image.size
@@ -38,6 +38,9 @@ try:
     image = Image.open('sample-image.jpg')
 except IOError as error:
     print('Cannot load image')
+
+# scale image so you can display it
+image = scale_image(image)
 
 # get image as 2d array
 pixel_matrix = np.array(image)
