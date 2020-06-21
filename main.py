@@ -35,4 +35,4 @@ pixel_matrix = np.array(image)
 # transform pixel to symbol
 symbols_matrix = list(map(lambda row: list(map(lambda pixel: pixel_to_symbol(pixel), row)), pixel_matrix))
 
-print(symbols_matrix)
+print('\n'.join(''.join(str(symbol) for symbol in row) for row in symbols_matrix))
