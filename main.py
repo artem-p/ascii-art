@@ -5,6 +5,7 @@ import numpy as np
 BRIGHTNESS_MAPPING = 'brightness_mapping'
 TERMINAL_OUTPUT = 'terminal_output'
 AVERAGE_BRIGHTNESS_MAPPING = 'average'
+MIN_MAX_BRIGHTNESS_MAPPING = 'min_max'
 BRIGHTNESS_MAX = 255
 BRIGHTNESS_SYMBOLS = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 BRIGHTNESS_SYMBOLS_COUNT = len(BRIGHTNESS_SYMBOLS)
@@ -12,8 +13,22 @@ BRIGHTNESS__TO_SYMBOL_SLOPE = BRIGHTNESS_SYMBOLS_COUNT / BRIGHTNESS_MAX
 
 settings = {BRIGHTNESS_MAPPING: AVERAGE_BRIGHTNESS_MAPPING, TERMINAL_OUTPUT: False}
 
-def to_brightness(pixel):
+
+def brightness_mapping_average(pixel):
     return (int(pixel[0]) + int(pixel[1]) + int(pixel[2])) / 3
+
+
+def brightness_mapping_min_max(pixel):
+    return int((int(min(pixel)) + int(max(pixel))) / 2)
+
+
+def to_brightness(pixel):
+    if settings[BRIGHTNESS_MAPPING] == AVERAGE_BRIGHTNESS_MAPPING:
+        return brightness_mapping_average(pixel)
+    elif settings[BRIGHTNESS_MAPPING] == MIN_MAX_BRIGHTNESS_MAPPING:
+        return brightness_mapping_min_max(pixel)
+    else:
+        return brightness_mapping_average(pixel)
 
 
 def pixel_to_symbol(pixel):
@@ -51,6 +66,7 @@ def parse_arguments():
 
     settings[BRIGHTNESS_MAPPING] = args.bm
     settings[TERMINAL_OUTPUT] = args.t
+
 
 def main():
     parse_arguments()
