@@ -1,3 +1,4 @@
+import argparse, sys
 from PIL import Image
 import numpy as np
 
@@ -34,26 +35,31 @@ def scale_image(image, new_width=300):
     return new_image
 
 
-try:
-    image = Image.open('sample-image.jpg')
-except IOError as error:
-    print('Cannot load image')
+def main():
+    try:
+        image = Image.open('sample-image.jpg')
+    except IOError as error:
+        print('Cannot load image')
 
-# scale image so you can display it
-image = scale_image(image)
+    # scale image so you can display it
+    image = scale_image(image)
 
-# get image as 2d array
-pixel_matrix = np.array(image)
+    # get image as 2d array
+    pixel_matrix = np.array(image)
 
 
-# transform pixel to symbol
-symbols_matrix = list(map(lambda row: list(map(lambda pixel: pixel_to_symbol(pixel), row)), pixel_matrix))
+    # transform pixel to symbol
+    symbols_matrix = list(map(lambda row: list(map(lambda pixel: pixel_to_symbol(pixel), row)), pixel_matrix))
 
-ascii_art = '\n'.join(''.join(str(symbol) for symbol in row) for row in symbols_matrix)
-print(ascii_art)
+    ascii_art = '\n'.join(''.join(str(symbol) for symbol in row) for row in symbols_matrix)
+    print(ascii_art)
 
-output_file_path = 'output.txt'
+    output_file_path = 'output.txt'
 
-output_file = open(output_file_path, 'w')
+    output_file = open(output_file_path, 'w')
 
-output_file.write(ascii_art)
+    output_file.write(ascii_art)
+
+
+if __name__ == '__main__':
+    main()
