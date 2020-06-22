@@ -2,6 +2,7 @@ import argparse, sys
 from PIL import Image
 import numpy as np
 
+AVERAGE_OPTION = 'average'
 BRIGHTNESS_MAX = 255
 BRIGHTNESS_SYMBOLS = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 BRIGHTNESS_SYMBOLS_COUNT = len(BRIGHTNESS_SYMBOLS)
@@ -35,7 +36,20 @@ def scale_image(image, new_width=300):
     return new_image
 
 
+def parse_arguments():
+    """Parse command line arguments
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-bm', help='Brightness mapping method. Possible choices: average, min_max, luminosity. Default is average.', type=str, default=AVERAGE_OPTION)
+    parser.add_argument('-t', help='Output in terminal', action='store_true')
+    parser.set_defaults(output_in_terminal=False)
+
+    args = parser.parse_args()
+
+
 def main():
+    parse_arguments()
+
     try:
         image = Image.open('sample-image.jpg')
     except IOError as error:
@@ -52,7 +66,7 @@ def main():
     symbols_matrix = list(map(lambda row: list(map(lambda pixel: pixel_to_symbol(pixel), row)), pixel_matrix))
 
     ascii_art = '\n'.join(''.join(str(symbol) for symbol in row) for row in symbols_matrix)
-    print(ascii_art)
+    # print(ascii_art)
 
     output_file_path = 'output.txt'
 
